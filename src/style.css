@@ -1,5 +1,7 @@
 h1 {
-  color: aquamarine;
+  color: #272142;
+  font-size: 38px;
+  font-weight: 700;
 }
 
 #accentColor,
@@ -21,4 +23,9 @@ li,
 #forecastTemp {
   color: #f798b4;
   font-weight: 600;
+}
+
+#currentTemp {
+  color: #212121;
+  font-size: 80px;
 }
