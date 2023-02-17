@@ -5,17 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="src/style.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="src/style.css" />
+
     <title>Weather Search</title>
   </head>
-  <body>
-    <div class="container">
+  <body id="background">
+    <div class="container" id="weather-app">
       <form>
         <div class="row">
           <div class="col-9">
@@ -50,31 +51,32 @@
           <div class="col-6" id="currentTemp">🌞 #°</div>
         </div>
       </div>
+      <div id="forecastInfo">
+        <div class="row" id="forecastDay">
+          <div class="col">Thursday</div>
+          <div class="col">Friday</div>
+          <div class="col">Saturday</div>
+          <div class="col">Sunday</div>
+          <div class="col">Monday</div>
+        </div>
+        <div class="row" id="forecastIcon">
+          <div class="col">🌞</div>
+          <div class="col">🌞</div>
+          <div class="col">🌞</div>
+          <div class="col">🌞</div>
+          <div class="col">🌞</div>
+        </div>
+        <div class="row" id="forecastTemp">
+          <div class="col"><span id="accentColor">12°</span> 22°</div>
+          <div class="col"><span id="accentColor">13°</span> 23°</div>
+          <div class="col"><span id="accentColor">14°</span> 24°</div>
+          <div class="col"><span id="accentColor">15°</span> 25°</div>
+          <div class="col"><span id="accentColor">16°</span> 26°</div>
+        </div>
+      </div>
+      <small>This is Dilly Sanborn-Marsh's project.</small>
     </div>
-    <div id="forecastInfo">
-      <div class="row" id="forecastDay">
-        <div class="col">Thursday</div>
-        <div class="col">Friday</div>
-        <div class="col">Saturday</div>
-        <div class="col">Sunday</div>
-        <div class="col">Monday</div>
-      </div>
-      <div class="row" id="forecastIcon">
-        <div class="col">🌞</div>
-        <div class="col">🌞</div>
-        <div class="col">🌞</div>
-        <div class="col">🌞</div>
-        <div class="col">🌞</div>
-      </div>
-      <div class="row" id="forecastTemp">
-        <div class="col"><span id="accentColor">12°</span> 22°</div>
-        <div class="col"><span id="accentColor">13°</span> 23°</div>
-        <div class="col"><span id="accentColor">14°</span> 24°</div>
-        <div class="col"><span id="accentColor">15°</span> 25°</div>
-        <div class="col"><span id="accentColor">16°</span> 26°</div>
-      </div>
-    </div>
-    <small>This is Dilly Sanborn-Marsh's project.</small>
+
     <script src="src/index.js"></script>
   </body>
 </html>

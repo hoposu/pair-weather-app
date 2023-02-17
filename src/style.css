@@ -2,6 +2,30 @@ h1 {
   color: #272142;
   font-size: 38px;
   font-weight: 700;
+  margin-bottom: 0px;
+}
+
+#forecastInfo,
+small {
+  text-align: center;
+  margin: 20px;
+}
+
+#forecastDay {
+  color: grey;
+  list-style-type: none;
+}
+
+ul {
+  color: grey;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#currentTemp {
+  color: #212121;
+  font-size: 80px;
 }
 
 #accentColor,
@@ -11,21 +35,27 @@ h1 {
   font-weight: 600;
 }
 
-#forecastInfo {
-  text-align: center;
-}
-
-li,
-#forecastDay {
-  color: grey;
-}
-
 #forecastTemp {
   color: #f798b4;
   font-weight: 600;
 }
 
-#currentTemp {
-  color: #212121;
-  font-size: 80px;
+#weather-app {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 30px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px 10px rgb(171, 227, 253),
+    -2px -2px 10px 10px rgb(171, 227, 253);
+  background-color: white;
+  font: arial, sans-serif;
+}
+
+#currentCityInfo {
+  margin: 20px;
+}
+
+#background {
+  background-color: rgb(189, 231, 250);
 }
