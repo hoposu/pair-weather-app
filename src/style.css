@@ -1,3 +1,24 @@
 h1 {
   color: aquamarine;
 }
+
+#accentColor,
+#windSpeed,
+#humidity {
+  color: #f65282;
+  font-weight: 600;
+}
+
+#forecastInfo {
+  text-align: center;
+}
+
+li,
+#forecastDay {
+  color: grey;
+}
+
+#forecastTemp {
+  color: #f798b4;
+  font-weight: 600;
+}
