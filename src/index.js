@@ -7,7 +7,6 @@
 */
 
 // Set the current date & time, set the forecast days of the week
-let date = new Date();
 function setTimeDate(date) {
   let minute = date.getMinutes();
   if (minute < 10) {
@@ -54,8 +53,9 @@ function setTimeDate(date) {
   document.querySelector(
     "#dateTime"
   ).innerHTML = `${hour}:${minute} on ${dayOfWeek}, ${month} ${day}, ${year}`;
+  navigator.geolocation.getCurrentPosition(getCoordsFromPosition);
 
-  // Update the forecat days of the week
+  // Update the forecast days of the week
   document.querySelector("#day1").innerHTML = weekArray[date.getDay() + 1];
   document.querySelector("#day2").innerHTML = weekArray[date.getDay() + 2];
   document.querySelector("#day3").innerHTML = weekArray[date.getDay() + 3];
@@ -63,19 +63,27 @@ function setTimeDate(date) {
   document.querySelector("#day5").innerHTML = weekArray[date.getDay() + 5];
 }
 
-//Set the current (1) weather, (2) temp, (3) humidity, (4) wind speed, for a given location
-function setWeatherHumidityWind(response) {
-  let currentWeather = response.data.weather[0].description;
-  let currentTemp = Math.round(response.data.main.temp);
-  let currentHumidity = response.data.main.humidity;
-  let currentWind = Math.round(response.data.wind.speed);
-  document.querySelector("#humidity").innerHTML = `${currentHumidity}%`;
-  document.querySelector("#windSpeed").innerHTML = `${currentWind} mph`;
-  document.querySelector("#weather").innerHTML = `${currentWeather}`;
-  document.querySelector("#currentTemp").innerHTML = `${currentTemp}`;
-  document.querySelector(
-    "#currentEmoji"
-  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png'>`;
+//Get the position to populate page with weather data
+function getCoordsFromPosition(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  setPosition(lat, lon);
+}
+
+function setPosition(lat, lon) {
+  let cityApiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&units=metric&limit=1&appid=${apiKey}`;
+  axios.get(cityApiURL).then(updateCityName);
+  let forecastApiURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+  axios.get(forecastApiURL).then(setForecast);
+  axios.get(forecastApiURL).then(updateEmojis);
+}
+
+// Update city name
+function updateCityName(response) {
+  let city = response.data[0].name;
+  document.querySelector("h1").innerHTML = city;
+  let currentApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+  axios.get(currentApiURL).then(setWeatherHumidityWind);
 }
 
 // Set the forecasted temperatures, for a given location
@@ -137,34 +145,45 @@ function updateEmojis(response) {
   ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[34].weather[0].icon}@2x.png'>`;
 }
 
+//Set the current (1) weather, (2) temp, (3) humidity, (4) wind speed, for a given location
+function setWeatherHumidityWind(response) {
+  let currentWeather = response.data.weather[0].description;
+  let currentTemp = Math.round(response.data.main.temp);
+  let currentHumidity = response.data.main.humidity;
+  let currentWind = Math.round(response.data.wind.speed);
+  document.querySelector("#humidity").innerHTML = `${currentHumidity}%`;
+  document.querySelector("#windSpeed").innerHTML = `${currentWind} mph`;
+  document.querySelector("#weather").innerHTML = `${currentWeather}`;
+  document.querySelector("#currentTemp").innerHTML = `${currentTemp}`;
+  document.querySelector(
+    "#currentEmoji"
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png'>`;
+}
+
+function newCitySearch(event) {
+  event.preventDefault();
+  let city = document.querySelector("#input");
+  console.log(city.value);
+  let apiURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city.value}&appid=${apiKey}`;
+  axios.get(apiURL).then(getCoordsFromCity);
+}
+
+//document.querySelector("h1").innerHTML = city.value;
+//let currentApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&units=metric&appid=${apiKey}`;
+
+function getCoordsFromCity(response) {
+  console.log(response.data);
+  setPosition(response.data[0].lat, response.data[0].lon);
+}
+
 // Convert all temperatures, given linked C/F
 // TODO
 
-// Update all location and temperature UI based on what the user enters in the search bar
-// TODO
-
-//Get the current position to initialize the page with weather data from the current location
-function setInitialPosition(position) {
-  let lat = position.coords.latitude;
-  let lon = position.coords.longitude;
-  let cityApiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&units=metric&limit=1&appid=${apiKey}`;
-  axios.get(cityApiURL).then(showInitialPositionData);
-  let forecastApiURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
-  axios.get(forecastApiURL).then(setForecast);
-  axios.get(forecastApiURL).then(updateEmojis);
-}
-
-// Update city name
-function showInitialPositionData(response) {
-  let city = response.data[0].name;
-  document.querySelector("h1").innerHTML = city;
-  let currentApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-  axios.get(currentApiURL).then(setWeatherHumidityWind);
-}
-
+// Set up the initial location current weather and forecast
 let apiKey = `53f3bc1f5d348c44be3e3754c7185573`;
+let date = new Date();
 setTimeDate(date);
-navigator.geolocation.getCurrentPosition(setInitialPosition);
 
-//City -> weather API
-//let cityToWeatherApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+// Update all location and temperature UI based on what the user enters in the search bar
+let form = document.querySelector("form");
+form.addEventListener("submit", newCitySearch);
