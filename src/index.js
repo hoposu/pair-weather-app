@@ -64,25 +64,47 @@ function setTimeDate(date) {
 }
 
 //Set the current (1) weather, (2) temp, (3) humidity, (4) wind speed, for a given location
+function setWeatherHumidityWind(response) {
+  let currentWeather = response.data.weather[0].description;
+  let currentTemp = response.data.main.temp;
+  let currentHumidity = response.data.main.humidity;
+  let currentWind = response.data.wind.speed;
+  document.querySelector("#humidity").innerHTML = `${currentHumidity}%`;
+  document.querySelector("#windSpeed").innerHTML = `${currentWind} mph`;
+  document.querySelector("#weather").innerHTML = `${currentWeather}`;
+  document.querySelector("#currentTemp").innerHTML = `${currentTemp}`;
+}
+
+// Set the forecasted temperatures, for a given location
+// TODO
+// 2, 10, 18
+function setForceast(response) {}
+
+// Upate the current weather and forecast emojis, based on current and forecasted temperatures
 // TODO
 
-// Set the forecasted weather, for a given location
+// Convert all temperatures, given linked C/F
 // TODO
 
-// Upate the current weather and forecast emojis, based on current and forecasted weather
+// Update all location and temperature UI based on what the user enters in the search bar
 // TODO
 
 //Get the current position to initialize the page with weather data from the current location
 function setInitialPosition(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
-  let coordinatesToCityApiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
-  axios.get(coordinatesToCityApiURL).then(showInitialPositionData);
+  let cityApiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
+  axios.get(cityApiURL).then(showInitialPositionData);
+  let forecastApiURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+  axios.get(forecastApiURL).then(setForecast);
 }
 
+// Update city name
 function showInitialPositionData(response) {
-  console.log(response);
-  document.querySelector("h1").innerHTML = response.data[0].name;
+  let city = response.data[0].name;
+  document.querySelector("h1").innerHTML = city;
+  let currentApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+  axios.get(currentApiURL).then(setWeatherHumidityWind);
 }
 
 let apiKey = `53f3bc1f5d348c44be3e3754c7185573`;

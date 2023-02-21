@@ -32,7 +32,8 @@ ul {
   font-size: 20px;
 }
 
-#currentTemp {
+#currentTemp,
+#currentEmoji {
   color: #212121;
   font-size: 80px;
   text-align: right;
