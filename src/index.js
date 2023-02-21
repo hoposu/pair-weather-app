@@ -66,9 +66,9 @@ function setTimeDate(date) {
 //Set the current (1) weather, (2) temp, (3) humidity, (4) wind speed, for a given location
 function setWeatherHumidityWind(response) {
   let currentWeather = response.data.weather[0].description;
-  let currentTemp = response.data.main.temp;
+  let currentTemp = Math.round(response.data.main.temp);
   let currentHumidity = response.data.main.humidity;
-  let currentWind = response.data.wind.speed;
+  let currentWind = Math.round(response.data.wind.speed);
   document.querySelector("#humidity").innerHTML = `${currentHumidity}%`;
   document.querySelector("#windSpeed").innerHTML = `${currentWind} mph`;
   document.querySelector("#weather").innerHTML = `${currentWeather}`;
@@ -78,7 +78,41 @@ function setWeatherHumidityWind(response) {
 // Set the forecasted temperatures, for a given location
 // TODO
 // 2, 10, 18
-function setForceast(response) {}
+function setForecast(response) {
+  console.log(response.data.list);
+  document.querySelector("#min1").innerHTML = `${Math.round(
+    response.data.list[2].main.temp_min
+  )}°`;
+  document.querySelector("#max1").innerHTML = `${Math.round(
+    response.data.list[2].main.temp_max
+  )}°`;
+
+  document.querySelector("#min2").innerHTML = `${Math.round(
+    response.data.list[10].main.temp_min
+  )}°`;
+  document.querySelector("#min3").innerHTML = `${Math.round(
+    response.data.list[18].main.temp_min
+  )}°`;
+  document.querySelector("#min4").innerHTML = `${Math.round(
+    response.data.list[26].main.temp_min
+  )}°`;
+  document.querySelector("#min5").innerHTML = `${Math.round(
+    response.data.list[34].main.temp_min
+  )}°`;
+
+  document.querySelector("#max2").innerHTML = `${Math.round(
+    response.data.list[10].main.temp_max
+  )}°`;
+  document.querySelector("#max3").innerHTML = `${Math.round(
+    response.data.list[18].main.temp_max
+  )}°`;
+  document.querySelector("#max4").innerHTML = `${Math.round(
+    response.data.list[26].main.temp_max
+  )}°`;
+  document.querySelector("#max5").innerHTML = `${Math.round(
+    response.data.list[34].main.temp_max
+  )}°`;
+}
 
 // Upate the current weather and forecast emojis, based on current and forecasted temperatures
 // TODO
@@ -93,9 +127,9 @@ function setForceast(response) {}
 function setInitialPosition(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
-  let cityApiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
+  let cityApiURL = `http://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&units=metric&limit=1&appid=${apiKey}`;
   axios.get(cityApiURL).then(showInitialPositionData);
-  let forecastApiURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+  let forecastApiURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   axios.get(forecastApiURL).then(setForecast);
 }
 

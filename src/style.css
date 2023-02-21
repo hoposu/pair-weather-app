@@ -40,9 +40,14 @@ ul {
   line-height: 1;
 }
 
-#accentColor,
+#min1,
+#min2,
+#min3,
+#min4,
+#min5,
 #windSpeed,
-#humidity {
+#humidity,
+#dateTime {
   color: #f65282;
   font-weight: 600;
 }
