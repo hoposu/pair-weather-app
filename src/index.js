@@ -73,13 +73,13 @@ function setWeatherHumidityWind(response) {
   document.querySelector("#windSpeed").innerHTML = `${currentWind} mph`;
   document.querySelector("#weather").innerHTML = `${currentWeather}`;
   document.querySelector("#currentTemp").innerHTML = `${currentTemp}`;
+  document.querySelector(
+    "#currentEmoji"
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png'>`;
 }
 
 // Set the forecasted temperatures, for a given location
-// TODO
-// 2, 10, 18
 function setForecast(response) {
-  console.log(response.data.list);
   document.querySelector("#min1").innerHTML = `${Math.round(
     response.data.list[2].main.temp_min
   )}°`;
@@ -115,7 +115,27 @@ function setForecast(response) {
 }
 
 // Upate the current weather and forecast emojis, based on current and forecasted temperatures
-// TODO
+function updateEmojis(response) {
+  document.querySelector(
+    "#emoji1"
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[2].weather[0].icon}@2x.png'>`;
+
+  document.querySelector(
+    "#emoji2"
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[10].weather[0].icon}@2x.png'>`;
+
+  document.querySelector(
+    "#emoji3"
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[18].weather[0].icon}@2x.png'>`;
+
+  document.querySelector(
+    "#emoji4"
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[26].weather[0].icon}@2x.png'>`;
+
+  document.querySelector(
+    "#emoji5"
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[34].weather[0].icon}@2x.png'>`;
+}
 
 // Convert all temperatures, given linked C/F
 // TODO
@@ -131,6 +151,7 @@ function setInitialPosition(position) {
   axios.get(cityApiURL).then(showInitialPositionData);
   let forecastApiURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   axios.get(forecastApiURL).then(setForecast);
+  axios.get(forecastApiURL).then(updateEmojis);
 }
 
 // Update city name
