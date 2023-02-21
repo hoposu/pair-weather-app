@@ -11,6 +11,8 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <link rel="stylesheet" href="src/style.css" />
 
     <title>Weather Search</title>
@@ -56,11 +58,11 @@
         </div>
         <div id="forecastInfo">
           <div class="row" id="forecastDay">
-            <div class="col">Thursday</div>
-            <div class="col">Friday</div>
-            <div class="col">Saturday</div>
-            <div class="col">Sunday</div>
-            <div class="col">Monday</div>
+            <div class="col" id="day1">Thursday</div>
+            <div class="col" id="day2">Friday</div>
+            <div class="col" id="day3">Saturday</div>
+            <div class="col" id="day4">Sunday</div>
+            <div class="col" id="day5">Monday</div>
           </div>
           <div class="row" id="forecastIcon">
             <div class="col">🌞</div>
