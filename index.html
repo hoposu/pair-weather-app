@@ -53,7 +53,11 @@
                 <img src="https://openweathermap.org/img/wn/03d@2x.png" alt=""
               /></span>
               <span id="currentTemp">#</span>
-              <span id="celsius">C | F</span>
+              <span class="units">
+                <a href="#" onclick="convertToF()" id="fahrenheit"> F</a>
+                |
+                <a href="#" onclick="convertToC()" id="celcius"> C </a>
+              </span>
             </div>
           </div>
         </div>

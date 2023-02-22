@@ -176,8 +176,64 @@ function getCoordsFromCity(response) {
   setPosition(response.data[0].lat, response.data[0].lon);
 }
 
-// Convert all temperatures, given linked C/F
-// TODO
+// Convert all temperatures from C to F
+function convertToF() {
+  // update the temps
+  let currentTemp = document.querySelector("#currentTemp");
+  currentTemp.innerHTML = Math.round(
+    (parseInt(currentTemp.innerHTML) * 9) / 5 + 32
+  );
+  let min1 = document.querySelector("#min1");
+  console.log("here1 " + min1.data);
+
+  min1.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  console.log("here2 " + min1.data);
+  let max1 = document.querySelector("#max1");
+  max1.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  let min2 = document.querySelector("#min2");
+  min2.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  let max2 = document.querySelector("#max2");
+  max2.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  let min3 = document.querySelector("#min3");
+  min3.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  let max3 = document.querySelector("#max3");
+  max3.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  let min4 = document.querySelector("#min4");
+  min4.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  let max4 = document.querySelector("#max4");
+  max4.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  let min5 = document.querySelector("#min5");
+  min5.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  let max5 = document.querySelector("#max5");
+  max5.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+}
+// Convert all temperatures from F to C
+function convertToC() {
+  let currentTemp = document.querySelector("#currentTemp");
+  currentTemp.innerHTML = Math.round(
+    ((parseInt(currentTemp.innerHTML) - 32) * 5) / 9
+  );
+  let min1 = document.querySelector("#min1");
+  min1.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let max1 = document.querySelector("#max1");
+  max1.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let min2 = document.querySelector("#min2");
+  min2.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let max2 = document.querySelector("#max2");
+  max2.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let min3 = document.querySelector("#min3");
+  min3.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let max3 = document.querySelector("#max3");
+  max3.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let min4 = document.querySelector("#min4");
+  min4.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let max4 = document.querySelector("#max4");
+  max4.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let min5 = document.querySelector("#min5");
+  min5.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  let max5 = document.querySelector("#max5");
+  max5.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+}
 
 // Set up the initial location current weather and forecast
 let apiKey = `53f3bc1f5d348c44be3e3754c7185573`;
