@@ -76,14 +76,16 @@ function setPosition(lat, lon) {
   let forecastApiURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   axios.get(forecastApiURL).then(setForecast);
   axios.get(forecastApiURL).then(updateEmojis);
+  axios.get(forecastApiURL).then(setWeatherHumidityWind);
 }
 
 // Update city name
 function updateCityName(response) {
+  console.log("update", response);
   let city = response.data[0].name;
   document.querySelector("h1").innerHTML = city;
-  let currentApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-  axios.get(currentApiURL).then(setWeatherHumidityWind);
+  // let currentApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+  //
 }
 
 // Set the forecasted temperatures, for a given location
@@ -147,17 +149,19 @@ function updateEmojis(response) {
 
 //Set the current (1) weather, (2) temp, (3) humidity, (4) wind speed, for a given location
 function setWeatherHumidityWind(response) {
-  let currentWeather = response.data.weather[0].description;
-  let currentTemp = Math.round(response.data.main.temp);
-  let currentHumidity = response.data.main.humidity;
-  let currentWind = Math.round(response.data.wind.speed);
+  console.log("response", response);
+  let currentWeather = response.data.list[0].weather[0].description;
+  let currentTemp = Math.round(response.data.list[0].main.temp);
+  console.log("here", currentTemp, response.data.list[0].main.temp);
+  let currentHumidity = response.data.list[0].main.temp;
+  let currentWind = Math.round(response.data.list[0].wind.speed);
   document.querySelector("#humidity").innerHTML = `${currentHumidity}%`;
   document.querySelector("#windSpeed").innerHTML = `${currentWind} mph`;
   document.querySelector("#weather").innerHTML = `${currentWeather}`;
   document.querySelector("#currentTemp").innerHTML = `${currentTemp}`;
   document.querySelector(
     "#currentEmoji"
-  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png'>`;
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[0].weather[0].icon}@2x.png'>`;
 }
 
 function newCitySearch(event) {
@@ -180,14 +184,15 @@ function getCoordsFromCity(response) {
 function convertToF() {
   // update the temps
   let currentTemp = document.querySelector("#currentTemp");
+  console.log(currentTemp.innerHTML);
   currentTemp.innerHTML = Math.round(
     (parseInt(currentTemp.innerHTML) * 9) / 5 + 32
   );
   let min1 = document.querySelector("#min1");
-  console.log("here1 " + min1.data);
+  console.log("here1 " + min1);
 
   min1.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
-  console.log("here2 " + min1.data);
+  console.log("here2 " + min1);
   let max1 = document.querySelector("#max1");
   max1.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
   let min2 = document.querySelector("#min2");
