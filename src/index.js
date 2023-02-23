@@ -76,16 +76,14 @@ function setPosition(lat, lon) {
   let forecastApiURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
   axios.get(forecastApiURL).then(setForecast);
   axios.get(forecastApiURL).then(updateEmojis);
-  axios.get(forecastApiURL).then(setWeatherHumidityWind);
 }
 
 // Update city name
 function updateCityName(response) {
-  console.log("update", response);
   let city = response.data[0].name;
   document.querySelector("h1").innerHTML = city;
-  // let currentApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-  //
+  let currentApiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+  axios.get(currentApiURL).then(setWeatherHumidityWind);
 }
 
 // Set the forecasted temperatures, for a given location
@@ -147,21 +145,22 @@ function updateEmojis(response) {
   ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[34].weather[0].icon}@2x.png'>`;
 }
 
+let temp = null;
+
 //Set the current (1) weather, (2) temp, (3) humidity, (4) wind speed, for a given location
 function setWeatherHumidityWind(response) {
-  console.log("response", response);
-  let currentWeather = response.data.list[0].weather[0].description;
-  let currentTemp = Math.round(response.data.list[0].main.temp);
-  console.log("here", currentTemp, response.data.list[0].main.temp);
-  let currentHumidity = response.data.list[0].main.temp;
-  let currentWind = Math.round(response.data.list[0].wind.speed);
+  let currentWeather = response.data.weather[0].description;
+  let currentTemp = Math.round(response.data.main.temp);
+  let currentHumidity = response.data.main.humidity;
+  let currentWind = Math.round(response.data.wind.speed);
+  temp = currentTemp;
   document.querySelector("#humidity").innerHTML = `${currentHumidity}%`;
   document.querySelector("#windSpeed").innerHTML = `${currentWind} mph`;
   document.querySelector("#weather").innerHTML = `${currentWeather}`;
   document.querySelector("#currentTemp").innerHTML = `${currentTemp}`;
   document.querySelector(
     "#currentEmoji"
-  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.list[0].weather[0].icon}@2x.png'>`;
+  ).innerHTML = `<img src='https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png'>`;
 }
 
 function newCitySearch(event) {
@@ -184,60 +183,55 @@ function getCoordsFromCity(response) {
 function convertToF() {
   // update the temps
   let currentTemp = document.querySelector("#currentTemp");
-  console.log(currentTemp.innerHTML);
-  currentTemp.innerHTML = Math.round(
-    (parseInt(currentTemp.innerHTML) * 9) / 5 + 32
-  );
+  currentTemp.innerHTML = Math.round((temp * 9) / 5 + 32);
   let min1 = document.querySelector("#min1");
-  console.log("here1 " + min1);
+  console.log("here1 " + min1.data);
 
-  min1.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
-  console.log("here2 " + min1);
+  min1.innerHTML = Math.round((temp * 9) / 5 + 32);
+  console.log("here2 " + min1.data);
   let max1 = document.querySelector("#max1");
-  max1.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  max1.innerHTML = Math.round((temp * 9) / 5 + 32);
   let min2 = document.querySelector("#min2");
-  min2.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  min2.innerHTML = Math.round((temp * 9) / 5 + 32);
   let max2 = document.querySelector("#max2");
-  max2.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  max2.innerHTML = Math.round((temp * 9) / 5 + 32);
   let min3 = document.querySelector("#min3");
-  min3.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  min3.innerHTML = Math.round((temp * 9) / 5 + 32);
   let max3 = document.querySelector("#max3");
-  max3.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  max3.innerHTML = Math.round((temp * 9) / 5 + 32);
   let min4 = document.querySelector("#min4");
-  min4.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  min4.innerHTML = Math.round((temp * 9) / 5 + 32);
   let max4 = document.querySelector("#max4");
-  max4.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  max4.innerHTML = Math.round((temp * 9) / 5 + 32);
   let min5 = document.querySelector("#min5");
-  min5.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  min5.innerHTML = Math.round((temp * 9) / 5 + 32);
   let max5 = document.querySelector("#max5");
-  max5.innerHTML = Math.round(parseInt(currentTemp.innerHTML) * (9 / 5) + 32);
+  max5.innerHTML = Math.round((temp * 9) / 5 + 32);
 }
 // Convert all temperatures from F to C
 function convertToC() {
   let currentTemp = document.querySelector("#currentTemp");
-  currentTemp.innerHTML = Math.round(
-    ((parseInt(currentTemp.innerHTML) - 32) * 5) / 9
-  );
+  currentTemp.innerHTML = temp;
   let min1 = document.querySelector("#min1");
-  min1.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  min1.innerHTML = temp;
   let max1 = document.querySelector("#max1");
-  max1.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  max1.innerHTML = temp;
   let min2 = document.querySelector("#min2");
-  min2.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  min2.innerHTML = temp;
   let max2 = document.querySelector("#max2");
-  max2.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  max2.innerHTML = temp;
   let min3 = document.querySelector("#min3");
-  min3.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  min3.innerHTML = temp;
   let max3 = document.querySelector("#max3");
-  max3.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  max3.innerHTML = temp;
   let min4 = document.querySelector("#min4");
-  min4.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  min4.innerHTML = temp;
   let max4 = document.querySelector("#max4");
-  max4.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  max4.innerHTML = temp;
   let min5 = document.querySelector("#min5");
-  min5.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  min5.innerHTML = temp;
   let max5 = document.querySelector("#max5");
-  max5.innerHTML = Math.round(((parseInt(currentTemp.innerHTML) - 32) * 5) / 9);
+  max5.innerHTML = temp;
 }
 
 // Set up the initial location current weather and forecast
